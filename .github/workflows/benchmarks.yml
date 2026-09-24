@@ -1,0 +1,104 @@
+name: Benchmarks
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Duration (longer jobs are more accurate)
+        type: choice
+        options: [short, medium, long, default, dry]
+        default: short
+      filter:
+        description: Filter
+        default: '*'
+      commit:
+        description: Update README
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: benchmarks-${{ github.ref }}
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      JOB: ${{ inputs.job || 'short' }}
+      FILTER: ${{ inputs.filter || '*' }}
+      RESULTS: Temp/BenchmarkDotNet.Artifacts/results
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Run benchmarks
+        run: >-
+          dotnet run -c Release --project Source/Encore.Benchmarks --
+          --filter "$FILTER" --job "$JOB" --exporters github
+          --artifacts Temp/BenchmarkDotNet.Artifacts
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-results
+          path: ${{ env.RESULTS }}
+
+      - name: Update README
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          report() { echo "$RESULTS/Encore.Benchmarks.$1-report-github.md"; }
+
+          replace() {
+            grep -qF "<!-- $1:start -->" README.md || { echo "::error::README.md has no <!-- $1:start --> placeholder"; exit 1; }
+            CONTENT="$2" awk -v start="<!-- $1:start -->" -v end="<!-- $1:end -->" '
+              $0 == start { print; while ((getline line < ENVIRON["CONTENT"]) > 0) print line; skip = 1; next }
+              $0 == end   { skip = 0 }
+              !skip
+            ' README.md > README.md.tmp
+            mv README.md.tmp README.md
+          }
+
+          {
+            echo "<sub>Last run $(date -u '+%Y-%m-%d %H:%M UTC') on [\`${GITHUB_SHA::7}\`](https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA) with the \`$JOB\` job.</sub>"
+            environment=true
+            while IFS='|' read -r name title description; do
+              file="$(report "$name")"
+              [[ -f "$file" ]] || continue
+              if $environment; then
+                printf '\n<details><summary>Environment</summary>\n\n'
+                awk '/^```/ { n++; print; if (n == 2) exit; next } n == 1' "$file"
+                printf '\n</details>\n'
+                environment=false
+              fi
+              printf '\n### %s\n\n%s\n\n' "$title" "$description"
+              awk '/^```/ { n++; next } n >= 2' "$file" | sed 's/&#39;//g; /./,$!d'
+            done <<'EOF'
+          DispatchBenchmarks|Dispatch|In-memory `CommandDispatcher.Dispatch` of an encoded request: decode, filters, handler, encode response.
+          PayloadBenchmarks|Payload size|Echo request/response dispatch with a UInt16-prefixed string of `Size` characters.
+          TcpBenchmarks|TCP|End-to-end over loopback: client framer, `TcpServer`, `TcpSession`, dispatcher and back.
+          CodecBenchmarks|Codec|`DefaultMessageCodec` encode/decode without dispatching.
+          EOF
+          } > "$RUNNER_TEMP/benchmarks.md"
+
+          replace benchmarks "$RUNNER_TEMP/benchmarks.md"
+          sed -n '/<!-- benchmarks:start -->/,/<!-- benchmarks:end -->/p' README.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit README
+        if: github.event_name == 'push' || inputs.commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Update benchmark results [skip ci]"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"

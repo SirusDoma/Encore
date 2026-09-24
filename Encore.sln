@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encore", "Source\Encore\Encore.csproj", "{A176FD59-A4D7-4528-B66D-1D3A9C78A991}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encore.Tests", "Source\Encore.Tests\Encore.Tests.csproj", "{47E40817-2B2A-495D-B797-62332985B168}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encore.Benchmarks", "Source\Encore.Benchmarks\Encore.Benchmarks.csproj", "{22D496B8-B356-49DF-A77D-E12E73555818}"
+EndProject
+Global
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|Any CPU = Debug|Any CPU
+        Release|Any CPU = Release|Any CPU
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {A176FD59-A4D7-4528-B66D-1D3A9C78A991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {A176FD59-A4D7-4528-B66D-1D3A9C78A991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {A176FD59-A4D7-4528-B66D-1D3A9C78A991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {A176FD59-A4D7-4528-B66D-1D3A9C78A991}.Release|Any CPU.Build.0 = Release|Any CPU
+        {47E40817-2B2A-495D-B797-62332985B168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {47E40817-2B2A-495D-B797-62332985B168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {47E40817-2B2A-495D-B797-62332985B168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {47E40817-2B2A-495D-B797-62332985B168}.Release|Any CPU.Build.0 = Release|Any CPU
+        {22D496B8-B356-49DF-A77D-E12E73555818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {22D496B8-B356-49DF-A77D-E12E73555818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {22D496B8-B356-49DF-A77D-E12E73555818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {22D496B8-B356-49DF-A77D-E12E73555818}.Release|Any CPU.Build.0 = Release|Any CPU
+    EndGlobalSection
+EndGlobal
