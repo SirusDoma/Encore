@@ -1,5 +1,7 @@
 # Encore
 
+[![Tests](https://github.com/SirusDoma/Encore/actions/workflows/tests.yml/badge.svg)](https://github.com/SirusDoma/Encore/actions/workflows/tests.yml)
+
 Encore is a TCP framework that provides controlled-based design and strongly typed network messages.  
 Network messages are encoded and decoded using customizable codec and framed using customizable [message framing](https://blog.stephencleary.com/2009/04/message-framing.html).
 
@@ -26,8 +28,8 @@ Run `dotnet test Source/Encore.Tests/Encore.Tests.csproj -c Release` to build an
 
 ## Benchmarks
 
-Run `dotnet run -c Release --project Source/Encore.Benchmarks -- --filter '*'` to run the BenchmarkDotNet suite.  
-Add `--job short` after the filter for a shorter run.
+Run `dotnet run -c Release --project Source/Encore.Benchmarks -- --filter '*'` to run the `BenchmarkDotNet` suite. 
+Add `--job short` after the filter for a shorter run with less accurracy.
 
 <!-- benchmarks:start -->
 <sub>Last run 2026-09-27 19:29 UTC on [`5af0666`](https://github.com/SirusDoma/Encore/commit/5af066631cd0488b1423bb6966190f8c5f498855) with the `short` job.</sub>
