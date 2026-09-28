@@ -32,7 +32,7 @@ Run `dotnet run -c Release --project Source/Encore.Benchmarks -- --filter '*'` t
 Add `--job short` after the filter for a shorter run with less accurracy.
 
 <!-- benchmarks:start -->
-<sub>Last run 2026-09-28 10:56 UTC on [`4a979a8`](https://github.com/SirusDoma/Encore/commit/4a979a80ab0be7caeb880db1d38229be3ade73ec) with the `short` job.</sub>
+<sub>Last run 2026-09-28 11:40 UTC on [`a8630b7`](https://github.com/SirusDoma/Encore/commit/a8630b7a4588911ea1a07f8c6223838326b356b4) with the `short` job.</sub>
 
 <details><summary>Environment</summary>
 
@@ -55,45 +55,45 @@ WarmupCount=3
 
 In-memory `CommandDispatcher.Dispatch` of an encoded request: decode, filters, handler, encode response.
 
-| Method                                        | Mean        | Error      | StdDev    | Ratio | RatioSD | Gen0   | Gen1   | Allocated | Alloc Ratio |
-|---------------------------------------------- |------------:|-----------:|----------:|------:|--------:|-------:|-------:|----------:|------------:|
-| Function handler (request → response)       |  1,949.6 ns |   575.6 ns |  31.55 ns |  1.00 |    0.02 | 0.1297 | 0.1221 |    2264 B |        1.00 |
-| Function handler (request only)             |    789.2 ns |   350.3 ns |  19.20 ns |  0.40 |    0.01 | 0.0448 | 0.0439 |     760 B |        0.34 |
-| Command-only handler                        |    634.9 ns |   491.2 ns |  26.92 ns |  0.33 |    0.01 | 0.0401 | 0.0391 |     680 B |        0.30 |
-| Controller (sync)                           |  2,345.2 ns |   797.7 ns |  43.73 ns |  1.20 |    0.03 | 0.1450 | 0.1411 |    2472 B |        1.09 |
-| Controller (async + cancellation)           |  2,279.0 ns | 1,932.9 ns | 105.95 ns |  1.17 |    0.05 | 0.1564 | 0.1526 |    2664 B |        1.18 |
-| Controller via DI (scope per request)       |  2,370.8 ns |   349.5 ns |  19.16 ns |  1.22 |    0.02 | 0.1526 | 0.1373 |    2632 B |        1.16 |
-| Function handler + 3 global filters         |  2,283.8 ns |   204.4 ns |  11.21 ns |  1.17 |    0.02 | 0.1488 | 0.1450 |    2536 B |        1.12 |
-| Controller + global/class/method filters    |  2,151.1 ns |   812.2 ns |  44.52 ns |  1.10 |    0.03 | 0.1678 | 0.1526 |    2824 B |        1.25 |
-| Controller + [Authorize]                    |  2,554.1 ns | 1,042.2 ns |  57.13 ns |  1.31 |    0.03 | 0.1526 | 0.1373 |    2664 B |        1.18 |
-| Filter short-circuit with result            |  1,964.8 ns |   598.5 ns |  32.80 ns |  1.01 |    0.02 | 0.1297 | 0.1259 |    2200 B |        0.97 |
-| Handler exception → logger + handler result | 13,849.3 ns | 1,334.2 ns |  73.13 ns |  7.11 |    0.10 | 0.3052 | 0.2747 |    5248 B |        2.32 |
-| Fan-out to 3 handlers                       |  3,153.2 ns |   566.8 ns |  31.07 ns |  1.62 |    0.03 | 0.3014 | 0.2975 |    5072 B |        2.24 |
+| Method                                        | Mean        | Error       | StdDev    | Ratio | RatioSD | Gen0   | Gen1   | Allocated | Alloc Ratio |
+|---------------------------------------------- |------------:|------------:|----------:|------:|--------:|-------:|-------:|----------:|------------:|
+| Function handler (request → response)       |  2,116.5 ns | 6,542.13 ns | 358.60 ns |  1.02 |    0.20 | 0.1221 | 0.1068 |    2264 B |        1.00 |
+| Function handler (request only)             |    843.4 ns |    75.04 ns |   4.11 ns |  0.41 |    0.05 | 0.0448 | 0.0439 |     760 B |        0.34 |
+| Command-only handler                        |    622.1 ns |   201.47 ns |  11.04 ns |  0.30 |    0.04 | 0.0401 | 0.0391 |     680 B |        0.30 |
+| Controller (sync)                           |  2,107.1 ns |   468.40 ns |  25.67 ns |  1.01 |    0.14 | 0.1450 | 0.1411 |    2472 B |        1.09 |
+| Controller (async + cancellation)           |  2,247.0 ns |   561.99 ns |  30.80 ns |  1.08 |    0.15 | 0.1564 | 0.1526 |    2664 B |        1.18 |
+| Controller via DI (scope per request)       |  2,308.1 ns |   584.78 ns |  32.05 ns |  1.11 |    0.15 | 0.1526 | 0.1373 |    2632 B |        1.16 |
+| Function handler + 3 global filters         |  2,117.0 ns |   657.88 ns |  36.06 ns |  1.02 |    0.14 | 0.1488 | 0.1450 |    2536 B |        1.12 |
+| Controller + global/class/method filters    |  2,250.0 ns |   580.81 ns |  31.84 ns |  1.08 |    0.15 | 0.1678 | 0.1640 |    2824 B |        1.25 |
+| Controller + [Authorize]                    |  2,585.3 ns | 2,007.58 ns | 110.04 ns |  1.24 |    0.17 | 0.1526 | 0.1373 |    2664 B |        1.18 |
+| Filter short-circuit with result            |  1,978.7 ns |   287.02 ns |  15.73 ns |  0.95 |    0.13 | 0.1297 | 0.1259 |    2200 B |        0.97 |
+| Handler exception → logger + handler result | 13,592.7 ns |   507.84 ns |  27.84 ns |  6.54 |    0.88 | 0.3052 | 0.2899 |    5248 B |        2.32 |
+| Fan-out to 3 handlers                       |  3,291.8 ns |   387.89 ns |  21.26 ns |  1.58 |    0.21 | 0.3014 | 0.2975 |    5072 B |        2.24 |
 
 ### Payload size
 
 Echo request/response dispatch with a UInt16-prefixed string of `Size` characters.
 
-| Method                  | Size  | Mean      | Error     | StdDev    | Ratio | RatioSD | Gen0   | Gen1   | Allocated | Alloc Ratio |
-|------------------------ |------ |----------:|----------:|----------:|------:|--------:|-------:|-------:|----------:|------------:|
-| **Function handler echo** | **16**    |  **2.189 μs** | **0.5546 μs** | **0.0304 μs** |  **1.00** |    **0.02** | **0.1411** | **0.1373** |   **2.35 KB** |        **1.00** |
-| Controller echo       | 16    |  2.089 μs | 0.6297 μs | 0.0345 μs |  0.95 |    0.02 | 0.1526 | 0.1373 |   2.55 KB |        1.09 |
-|                         |       |           |           |           |       |         |        |        |           |             |
-| **Function handler echo** | **1024**  |  **2.470 μs** | **0.5656 μs** | **0.0310 μs** |  **1.00** |    **0.02** | **0.5035** | **0.4883** |    **8.3 KB** |        **1.00** |
-| Controller echo       | 1024  |  2.698 μs | 0.5590 μs | 0.0306 μs |  1.09 |    0.02 | 0.5188 | 0.5035 |   8.51 KB |        1.02 |
-|                         |       |           |           |           |       |         |        |        |           |             |
-| **Function handler echo** | **16384** | **10.004 μs** | **5.4811 μs** | **0.3004 μs** |  **1.00** |    **0.04** | **6.0120** | **1.9836** |   **98.3 KB** |        **1.00** |
-| Controller echo       | 16384 |  9.351 μs | 1.9118 μs | 0.1048 μs |  0.94 |    0.03 | 6.0120 | 1.9836 |  98.51 KB |        1.00 |
+| Method                  | Size  | Mean     | Error     | StdDev    | Ratio | RatioSD | Gen0   | Gen1   | Allocated | Alloc Ratio |
+|------------------------ |------ |---------:|----------:|----------:|------:|--------:|-------:|-------:|----------:|------------:|
+| **Function handler echo** | **16**    | **2.052 μs** | **0.8940 μs** | **0.0490 μs** |  **1.00** |    **0.03** | **0.1411** | **0.1373** |   **2.35 KB** |        **1.00** |
+| Controller echo       | 16    | 2.082 μs | 0.6661 μs | 0.0365 μs |  1.01 |    0.03 | 0.1526 | 0.1488 |   2.55 KB |        1.09 |
+|                         |       |          |           |           |       |         |        |        |           |             |
+| **Function handler echo** | **1024**  | **2.462 μs** | **0.4353 μs** | **0.0239 μs** |  **1.00** |    **0.01** | **0.5074** | **0.5035** |    **8.3 KB** |        **1.00** |
+| Controller echo       | 1024  | 2.720 μs | 0.4900 μs | 0.0269 μs |  1.10 |    0.01 | 0.5188 | 0.5035 |   8.51 KB |        1.02 |
+|                         |       |          |           |           |       |         |        |        |           |             |
+| **Function handler echo** | **16384** | **9.715 μs** | **1.8757 μs** | **0.1028 μs** |  **1.00** |    **0.01** | **6.0120** | **1.9836** |   **98.3 KB** |        **1.00** |
+| Controller echo       | 16384 | 9.102 μs | 2.4406 μs | 0.1338 μs |  0.94 |    0.01 | 6.0120 | 1.9836 |  98.51 KB |        1.00 |
 
 ### TCP
 
 End-to-end over loopback: client framer, `TcpServer`, `TcpSession`, dispatcher and back.
 
-| Method                                          | Mean     | Error    | StdDev   | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
-|------------------------------------------------ |---------:|---------:|---------:|------:|--------:|-------:|----------:|------------:|
-| Round-trip, function handler                  | 85.43 μs | 58.34 μs | 3.198 μs |  1.00 |    0.05 | 0.1221 |    3.4 KB |        1.00 |
-| Round-trip, controller                        | 81.43 μs | 42.01 μs | 2.303 μs |  0.95 |    0.04 |      - |    3.6 KB |        1.06 |
-| Pipelined x16, function handler (per request) | 31.75 μs | 55.56 μs | 3.046 μs |  0.37 |    0.03 | 0.1221 |   2.86 KB |        0.84 |
+| Method                                          | Mean     | Error      | StdDev   | Ratio | RatioSD | Gen0   | Gen1   | Allocated | Alloc Ratio |
+|------------------------------------------------ |---------:|-----------:|---------:|------:|--------:|-------:|-------:|----------:|------------:|
+| Round-trip, function handler                  | 73.61 μs |  64.773 μs | 3.550 μs |  1.00 |    0.06 |      - |      - |    3.4 KB |        1.00 |
+| Round-trip, controller                        | 80.82 μs | 175.270 μs | 9.607 μs |  1.10 |    0.12 |      - |      - |   3.61 KB |        1.06 |
+| Pipelined x16, function handler (per request) | 25.52 μs |   7.677 μs | 0.421 μs |  0.35 |    0.02 | 0.1221 | 0.0610 |   2.86 KB |        0.84 |
 
 ### Codec
 
@@ -101,12 +101,12 @@ End-to-end over loopback: client framer, `TcpServer`, `TcpSession`, dispatcher a
 
 | Method                             | Mean        | Error       | StdDev   | Gen0   | Allocated |
 |----------------------------------- |------------:|------------:|---------:|-------:|----------:|
-| Encode int message               |    175.6 ns |   109.03 ns |  5.98 ns | 0.0291 |     488 B |
-| Decode int message               |    148.7 ns |    22.85 ns |  1.25 ns | 0.0119 |     200 B |
-| Encode 64-char string message    |    228.8 ns |    68.09 ns |  3.73 ns | 0.0396 |     664 B |
-| Decode 64-char string message    |    165.9 ns |    18.54 ns |  1.02 ns | 0.0243 |     408 B |
-| Encode nested message (16 items) |  9,158.2 ns |   136.67 ns |  7.49 ns | 0.3510 |    6113 B |
-| Decode nested message (16 items) | 14,601.5 ns | 1,656.88 ns | 90.82 ns | 0.5951 |   10193 B |
+| Encode int message               |    163.9 ns |     6.78 ns |  0.37 ns | 0.0291 |     488 B |
+| Decode int message               |    146.0 ns |    25.34 ns |  1.39 ns | 0.0119 |     200 B |
+| Encode 64-char string message    |    214.3 ns |    11.91 ns |  0.65 ns | 0.0396 |     664 B |
+| Decode 64-char string message    |    173.5 ns |    19.91 ns |  1.09 ns | 0.0243 |     408 B |
+| Encode nested message (16 items) |  9,133.0 ns | 1,297.67 ns | 71.13 ns | 0.3510 |    6113 B |
+| Decode nested message (16 items) | 14,507.3 ns | 1,218.68 ns | 66.80 ns | 0.5951 |   10193 B |
 <!-- benchmarks:end -->
 
 ## License
