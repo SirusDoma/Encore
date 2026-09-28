@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <Configurations>Release;Debug</Configurations>
         <OutputPath>..\..\Build\$(Configuration)\Encore\</OutputPath>
-        <Description>TCP sessions, command dispatch, framing, and attribute-based binary serialization.</Description>
+        <Description>TCP Framework with high-level abstraction.</Description>
         <Authors>SirusDoma</Authors>
         <PackageLicenseExpression>Zlib</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>

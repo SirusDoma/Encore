@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/SirusDoma/Encore/actions/workflows/tests.yml/badge.svg)](https://github.com/SirusDoma/Encore/actions/workflows/tests.yml)
 
-Encore is a TCP framework that provides controlled-based design and strongly typed network messages.  
+Encore is a TCP framework that provides controller-based design and strongly typed network messages.  
 Network messages are encoded and decoded using customizable codec and framed using customizable [message framing](https://blog.stephencleary.com/2009/04/message-framing.html).
 
 This framework was originally built specifically for [Mozart.Encore](https://github.com/SirusDoma/Mozart.Encore).
@@ -28,7 +28,7 @@ Run `dotnet test Source/Encore.Tests/Encore.Tests.csproj -c Release` to build an
 
 ## Benchmarks
 
-Run `dotnet run -c Release --project Source/Encore.Benchmarks -- --filter '*'` to run the `BenchmarkDotNet` suite. 
+Run `dotnet run -c Release --project Source/Encore.Benchmarks -- --filter '*'` to run the benchmark suite. 
 Add `--job short` after the filter for a shorter run with less accurracy.
 
 <!-- benchmarks:start -->
