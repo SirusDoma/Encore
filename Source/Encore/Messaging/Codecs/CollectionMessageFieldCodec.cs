@@ -139,9 +139,12 @@ public sealed class CollectionMessageFieldCodec : MessageFieldCodec
         object[] items = new object[count];
         for (int i = 0; i < realCount; i++)
         {
+            long position = reader.BaseStream.Position;
             object value = codec.Decode(reader, elementType);
             if (i < count)
                 items[i] = elementType.IsEnum ? Enum.ToObject(elementType, value) : value;
+            else if (reader.BaseStream.Position == position)
+                break;
         }
 
         for (int i = realCount; i < count; i++)

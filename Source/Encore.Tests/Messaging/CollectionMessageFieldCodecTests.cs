@@ -1,4 +1,5 @@
 using Encore.Messaging;
+using Encore.Tests.Fixtures;
 
 namespace Encore.Tests.Messaging;
 
@@ -18,6 +19,7 @@ public class CollectionMessageFieldCodecTests
         BlobRequest         = 0x020A,
         CharsRequest        = 0x020B,
         BoolsRequest        = 0x020C,
+        StringsRequest      = 0x020D,
     }
 
     public enum Color : byte
@@ -182,6 +184,14 @@ public class CollectionMessageFieldCodecTests
         public bool[] Flags { get; set; } = [];
     }
 
+    public sealed class StringsRequest : IMessage
+    {
+        public static Enum Command => CollectionCmd.StringsRequest;
+
+        [CollectionMessageField(0, TypeCode.Int32, maxCount: 1)]
+        public string[] Names { get; set; } = [];
+    }
+
     private static T RoundTrip<T>(T message)
         where T : class, IMessage, new()
     {
@@ -268,6 +278,15 @@ public class CollectionMessageFieldCodecTests
 
         Assert.Equal([7, 0], decoded.Values);
         Assert.Equal(0xAA, decoded.Marker);
+    }
+
+    [Fact]
+    public async Task Bounded_StopsDiscardingElementsThatConsumeNoData()
+    {
+        var decoded = await Task.Run(() => new DefaultMessageCodec().Decode<StringsRequest>(
+            Convert.FromHexString("0D02" + "FFFFFF7F"))).Within();
+
+        Assert.Equal([""], decoded.Names);
     }
 
     [Fact]
