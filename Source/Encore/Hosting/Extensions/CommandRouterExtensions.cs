@@ -206,7 +206,7 @@ public static partial class CommandHostExtensions
             var router = (ICommandDispatcher)factory(provider);
             router.Map<ISession, TController>(async (session, action) =>
             {
-                using var scope = provider.CreateScope();
+                await using var scope = provider.CreateAsyncScope();
                 await action(ActivatorUtilities.CreateInstance<TController>(scope.ServiceProvider, session));
             });
 
@@ -229,7 +229,7 @@ public static partial class CommandHostExtensions
             var router = (ICommandDispatcher)factory(provider);
             router.Map<TSession, TController>(async (session, action) =>
             {
-                using var scope = provider.CreateScope();
+                await using var scope = provider.CreateAsyncScope();
                 await action(ActivatorUtilities.CreateInstance<TController>(scope.ServiceProvider, session));
             });
 
@@ -254,7 +254,7 @@ public static partial class CommandHostExtensions
 
                 router.Map<ISession, TController>(async (session, action) =>
                 {
-                    using var scope = provider.CreateScope();
+                    await using var scope = provider.CreateAsyncScope();
                     await action(ActivatorUtilities.CreateInstance<TController>(scope.ServiceProvider, session));
                 }, options.GetFilters());
 
@@ -277,7 +277,7 @@ public static partial class CommandHostExtensions
             var router = (ICommandDispatcher)factory(provider);
             router.Map<ISession, TController>(async (session, action) =>
             {
-                using var scope = provider.CreateScope();
+                await using var scope = provider.CreateAsyncScope();
                 await action(implementationFactory(scope.ServiceProvider, session));
             });
 
